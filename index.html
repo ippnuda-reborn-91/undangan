@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Mewah IPPNU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Animasi Fade In */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f2f5;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 85%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            animation: fadeIn 1.5s ease-out; /* Menjalankan animasi */
+        }
+
+        .name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #27ae60;
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(39,174,96,0.3);
+        }
+
+        .btn:hover { transform: scale(1.05); background: #219150; }
+
+        /* Form WhatsApp */
+        .wa-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            font-size: 0.8rem;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div style="letter-spacing: 2px; color: #888;">MENANTI KEHADIRAN:</div>
+        <div id="nama-tamu" class="name">Tamu Undangan</div>
+        
+        <button onclick="bukaUndangan()" class="btn">Buka Undangan</button>
+
+        <audio id="musik" src="https://raw.githubusercontent.com/ippnuda-reborn-91/takbiran/main/Takbiran%20(mp3cut.net).mp3" loop></audio>
+
+        <div class="wa-section">
+            <p><strong>Buat Link Undangan Otomatis:</strong></p>
+            <input type="text" id="inputNama" placeholder="Ketik Nama Tamu...">
+            <br>
+            <button onclick="kirimWA()" style="background:#25d366; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
+                Kirim via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Ambil Nama dari URL
+        const params = new URLSearchParams(window.location.search);
+        const nama = params.get('to');
+        if (nama) {
+            document.getElementById('nama-tamu').innerText = decodeURIComponent(nama).replace(/\+/g, ' ');
+        }
+
+        // 2. Fungsi Buka Undangan & Putar Musik
+        function bukaUndangan() {
+            const audio = document.getElementById('musik');
+            audio.play(); // Memutar musik
+            
+            // Mengarahkan ke tautan gambar/profil setelah klik
+            setTimeout(() => {
+                window.open("https://lh3.googleusercontent.com/u/0/d/1NQv3fxQJF7fphp9ds46eoJAWM4vC5w_p", "_blank");
+            }, 500); 
+        }
+
+        // 3. Fungsi Kirim WhatsApp Otomatis
+        function kirimWA() {
+            const namaInput = document.getElementById('inputNama').value;
+            if(!namaInput) return alert("Masukkan nama tamu dulu!");
+
+            const namaFormat = encodeURIComponent(namaInput).replace(/%20/g, '+');
+            
+            // GANTI LINK DI BAWAH INI DENGAN LINK GOOGLE SITES ANDA
+            const linkBase = "https://www.ippnudamunjul.xyz/tools/undangan";
+            const linkFinal = linkBase + "?to=" + namaFormat;
+
+            const pesan = `Assalamu'alaikum, kami mengundang Anda: *${namaInput}* untuk hadir di acara kami. Silakan buka undangan di sini: ${linkFinal}`;
+            
+            window.open(`https://api.whatsapp.com/send?text=${pesan}`, '_blank');
+        }
+    </script>
+
+</body>
+</html>
